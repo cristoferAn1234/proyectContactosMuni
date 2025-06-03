@@ -42,4 +42,9 @@ class Contacto extends Model
     {
         return $this->belongsTo(User::class, 'updated_by', 'id');
     }
+    //Prueba de relacion con la tabla de instituciones
+    public function contactos()
+    {
+        return $this->hasMany(Contacto::class, 'id_municipalidad', 'id');
+    }
 }
