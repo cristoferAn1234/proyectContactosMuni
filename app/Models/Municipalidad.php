@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Municipalidad extends Model
 {
- protected $tabble = 'municipalidades';
- protected $fillable = ['nombre','id_provincia'];
+ protected $table = 'municipalidades';
+ protected $fillable = ['nombre','provincia_id','user_id'];
  public function provincia(){
-return $this->belongsTO(Provincia::class, 'id_provincia', 'id');
+return $this->belongsTo(Provincia::class);
 
+ }
+ public function usuario()
+ {
+     return $this->belongsTo(User::class);
  }
 }

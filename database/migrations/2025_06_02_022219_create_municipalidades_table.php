@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('municipalidades', function (Blueprint $table) {
              $table->id();
             $table->string('nombre')->unique();
-            $table->unsignedBigInteger('id_provincia');
-            $table->foreign('id_provincia')->references('id')->on('provincias')->onDelete('cascade');
+            $table->unsignedBigInteger('provincia_id');
+            $table->foreign('provincia_id')->references('id')->on('provincias')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });
     }
