@@ -12,14 +12,17 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        $this->call(ProvinciasSeeder::class);
+        //$this->call(ProvinciasSeeder::class);
+       // $this->call(PuestosSeeder::class);
+      //  $this->call(TiposSeeder::class);
+  
+        // User::factory(1)->create();
 
-        // User::factory(10)->create();
-
-       /* User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+       User::factory()->create([
+            'name' => 'Cristofer',
+            'email' => 'crisangulo123@gmail.com',
+            'password' => bcrypt('12345678'),
         ]);
-       */
+    
     }
 }

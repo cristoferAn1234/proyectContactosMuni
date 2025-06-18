@@ -11,8 +11,12 @@ class Provincia extends Model
     protected $fillable = [
         'nombre' ];
 
-    public function municipalidades()
+    
+
+
+    public function organizaciones()
     {
-        return $this->hasMany(Municipalidad::class, 'id_provincia');
+        return $this->hasMany(Organizacion::class);
     }
+
 }

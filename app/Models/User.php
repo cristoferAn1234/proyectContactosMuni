@@ -42,8 +42,18 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public function municipalidades()
+ 
+
+    public function createdContactos()
     {
-        return $this->hasMany(Municipalidad::class);
+        return $this->hasMany(Contacto::class, 'created_by');
+    }
+    public function updatedContactos()
+    {
+        return $this->hasMany(Contacto::class, 'updated_by');
+    }
+    public function createdOrganizaciones()
+    {
+        return $this->hasMany(Organizacion::class);
     }
 }
