@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('correo', 200)->unique();
             $table->string('urlPageWeb', 200)->nullable();
             $table->foreignId('provincia_id')->constrained('provincias');
-            $table->string('ubi_Lat', 40)->nullable();  
-            $table->string('ubi_long', 40)->nullable();
+            $table->decimal('ubi_Lat', 40, 30)->nullable();  // Decimal latitude
+            $table->decimal('ubi_long', 40, 30)->nullable(); //Decimal longitude
             $table->string('urlDirectorioTelefonico', 200)->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->nullable()->references('id')->on('users')->onDelete('cascade');

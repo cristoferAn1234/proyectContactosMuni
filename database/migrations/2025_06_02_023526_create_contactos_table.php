@@ -24,10 +24,9 @@ return new class extends Migration
             $table->string('formacion', 100);
             $table->string('extension', 100)->nullable();
             $table->string('email_institucional', 100)->unique();
-            $table->string('email_personal', 100)->nullable();
             $table->unsignedBigInteger('organizacion_id');
             $table->foreign('organizacion_id')->references('id')->on('organizaciones')->onDelete('cascade');
-            $table->boolean('activo');
+            $table->boolean('activo'); 
             $table->string('nivel_contacto', 50);
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');

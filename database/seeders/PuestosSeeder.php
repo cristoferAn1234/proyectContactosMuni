@@ -17,10 +17,9 @@ class PuestosSeeder extends Seeder
             'Unidad Técnica de Gestión Vial',
             'Recursos Humanos','Secretario',
             'Gestión de Proyectos',
-        ]
-        ;
+        ];
         foreach ($puestos as $puesto) {
-            Puesto::create(['nombre' => $puesto]);
+            Puesto::create(['nombrePuesto' => $puesto]);
         }
     }
 }
