@@ -10,14 +10,14 @@ class ProvinciasSeeder extends Seeder
     
     public function run(): void
     {
-     $provincias = [
-            ['nombre' => 'San José'],
-            ['nombre' => 'Alajuela'],
-            ['nombre' => 'Cartago'],
-            ['nombre' => 'Heredia'],
-            ['nombre' => 'Guanacaste'],
-            ['nombre' => 'Puntarenas'],
-            ['nombre' => 'Limón'],
+      $provincias = [
+            ['id' => 1, 'nombre' => 'San José'],
+            ['id' => 2, 'nombre' => 'Alajuela'],
+            ['id' => 3, 'nombre' => 'Heredia'],
+            ['id' => 4, 'nombre' => 'Cartago'],
+            ['id' => 5, 'nombre' => 'Guanacaste'],
+            ['id' => 6, 'nombre' => 'Puntarenas'],
+            ['id' => 7, 'nombre' => 'Limón'],
         ];
 
         Provincia::insert($provincias);

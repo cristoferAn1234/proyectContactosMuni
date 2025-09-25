@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('ced_juridica')->unique();
             $table->string('nombre', 150);
             $table->unsignedBigInteger('tipo_id');
-            $table->foreign('tipo_id')->references('id')->on('tipos')->onDelete('cascade');
+            $table->foreign('tipo_id')->references('id')->on('tiposOrganizacion')->onDelete('cascade');
             $table->string('telefono', 150)->unique();
             $table->string('correo', 200)->unique();
             $table->string('urlPageWeb', 200)->nullable();

@@ -29,7 +29,7 @@ class Organizacion extends Model
 // define la relacion en el modelo tipo 
     public function tipo()
     {
-        return $this->belongsTo(Tipo::class,'tipo_id');
+        return $this->belongsTo(TipoOrganizacion::class,'tipo_id');
     }
     public function provincia()
     {
@@ -38,5 +38,13 @@ class Organizacion extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function distrito()
+    {
+        return $this->belongsTo(Distrito::class);
+    }
+    public function canton()
+    {
+        return $this->belongsTo(Canton::class);
     }
 }

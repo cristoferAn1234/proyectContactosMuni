@@ -3,21 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tipo;
+use App\Models\TipoOrganizacion;
 use Illuminate\Http\Request;
 
-class TipoController extends Controller
+class TipoOrganizacionController extends Controller
 {
     // Mostrar todos los tipos
     public function index()
     {
-        $tipos = Tipo::all();
+        $tipos = TipoOrganizacion::all();
         return response()->json($tipos);
     }
 
     // Mostrar un tipo específico
     public function show($id)
     {
-        $tipo = Tipo::findOrFail($id);
+        $tipo = TipoOrganizacion::findOrFail($id);
         return response()->json($tipo);
     }
 
@@ -28,7 +29,7 @@ class TipoController extends Controller
             'nombre' => 'required|string|max:100',
         ]);
 
-        $tipo = Tipo::create($validated);
+        $tipo = TipoOrganizacion::create($validated);
 
         return response()->json($tipo, 201);
     }
@@ -36,7 +37,7 @@ class TipoController extends Controller
     // Actualizar un tipo existente
     public function update(Request $request, $id)
     {
-        $tipo = Tipo::findOrFail($id);
+        $tipo = TipoOrganizacion::findOrFail($id);
 
         $validated = $request->validate([
             'nombre' => 'required|string|max:100',
@@ -50,7 +51,7 @@ class TipoController extends Controller
     // Eliminar un tipo
     public function destroy($id)
     {
-        $tipo = Tipo::findOrFail($id);
+        $tipo = TipoOrganizacion::findOrFail($id);
         $tipo->delete();
 
         return response()->json(['message' => 'Tipo eliminado correctamente.']);

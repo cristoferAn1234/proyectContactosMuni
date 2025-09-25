@@ -36,8 +36,7 @@ class ProvinciaController extends Controller
             return response()->json(['error' => 'Error al crear la provincia: ' . $e->getMessage()], 500);
         }  
     }
-    // De momento no lo usamos, pero lo dejamos comentado por si lo necesitamos en el futuro
-/*
+
     public function show(string $id)
     {
         try {
@@ -47,7 +46,6 @@ class ProvinciaController extends Controller
             return response()->json(['error' => 'Error al obtener la provincia: ' . $e->getMessage()], 500);
         }
     }
-*/
  
     public function update(Request $request, string $id)
     {

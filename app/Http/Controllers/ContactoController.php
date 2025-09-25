@@ -10,14 +10,14 @@ class ContactoController extends Controller
     // Obtener todos los contactos
     public function index()
     {
-        $contactos = Contacto::with(['puesto', 'organizacion', 'creador', 'editor'])->get();
+        $contactos = Contacto::with(['organizacion', 'createdBy', 'updatedBy', 'telefonos'])->get();
         return response()->json($contactos);
     }
 
     // Mostrar un contacto específico
     public function show($id)
     {
-        $contacto = Contacto::with(['puesto', 'organizacion', 'creador', 'editor'])->findOrFail($id);
+        $contacto = Contacto::with(['organizacion', 'createdBy', 'updatedBy', 'telefonos'])->findOrFail($id);
         return response()->json($contacto);
     }
 

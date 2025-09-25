@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Organizacion;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class OrganizacionController extends Controller
 {
@@ -25,15 +26,15 @@ class OrganizacionController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'ced_juridica' => 'required|numeric|unique:organizaciones',
+            'ced_juridica' => 'required|integer|unique:organizaciones,ced_juridica',
             'nombre' => 'required|string|max:150',
             'tipo_id' => 'required|exists:tipos,id',
-            'telefono' => 'required|string|max:150|unique:organizaciones',
-            'correo' => 'required|email|max:200|unique:organizaciones',
+            'telefono' => 'required|string|max:150|unique:organizaciones,telefono',
+            'correo' => 'required|email|max:200|unique:organizaciones,correo',
             'urlPageWeb' => 'nullable|string|max:200',
             'provincia_id' => 'required|exists:provincias,id',
-            'ubi_Lat' => 'nullable|string|max:40',
-            'ubi_long' => 'nullable|string|max:40',
+            'ubi_Lat' => 'nullable|numeric',
+            'ubi_long' => 'nullable|numeric',
             'urlDirectorioTelefonico' => 'nullable|string|max:200',
             'user_id' => 'nullable|exists:users,id',
         ]);
@@ -49,15 +50,15 @@ class OrganizacionController extends Controller
         $organizacion = Organizacion::findOrFail($id);
 
         $validated = $request->validate([
-            'ced_juridica' => 'required|numeric|unique:organizaciones,ced_juridica,' . $id,
+            'ced_juridica' => 'required|integer|unique:organizaciones,ced_juridica,' . Rule::ignore($id),
             'nombre' => 'required|string|max:150',
             'tipo_id' => 'required|exists:tipos,id',
-            'telefono' => 'required|string|max:150|unique:organizaciones,telefono,' . $id,
-            'correo' => 'required|email|max:200|unique:organizaciones,correo,' . $id,
+            'telefono' => 'required|string|max:150|unique:organizaciones,telefono,' . Rule::ignore($id),
+            'correo' => 'required|email|max:200|unique:organizaciones,correo,' . Rule::ignore($id),
             'urlPageWeb' => 'nullable|string|max:200',
             'provincia_id' => 'required|exists:provincias,id',
-            'ubi_Lat' => 'nullable|string|max:40',
-            'ubi_long' => 'nullable|string|max:40',
+            'ubi_Lat' => 'nullable|numeric',
+            'ubi_long' => 'nullable|numeric',
             'urlDirectorioTelefonico' => 'nullable|string|max:200',
             'user_id' => 'nullable|exists:users,id',
         ]);

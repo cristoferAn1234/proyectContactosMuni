@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tipos', function (Blueprint $table) {
-            $table->id();
+        Schema::create('cantones', function (Blueprint $table) {
+            $table->unsignedSmallInteger('id')->primary();
             $table->string('nombre', 100);
+            $table->unsignedTinyInteger('provincia_id');
+            $table->foreign('provincia_id')->references('id')->on('provincias')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tipos');
+        Schema::dropIfExists('cantones');
     }
 };
