@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use \Illuminate\Database\Eloquent\Factories\HasFactory;
 class Organizacion extends Model
 {
+ use HasFactory;
  protected $table = 'organizaciones';
  protected $fillable = [
         'ced_juridica',
@@ -15,7 +16,9 @@ class Organizacion extends Model
         'correo',
         'urlPageWeb',
         'provincia_id',// Relaciona con el modelo Provincia
-        'ubi_Lat',
+        'canton_id', // Relaciona con el modelo Canton
+        'distrito_id', // Relaciona con el modelo Distrito
+        'ubi_lat',
         'ubi_long',
         'urlDirectorioTelefonico',
         'user_id', // Relaciona con el modelo User

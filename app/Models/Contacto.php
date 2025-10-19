@@ -13,17 +13,16 @@ class Contacto extends Model
         'apellido2',
         'sexo',
         'puesto',
+        'puesto_id',
         'departamento',
         'formacion',
         'extension',
         'email_institucional',
-        'email_personal',
-        'organizacion_id', //relacion con Organizacion
+        'organizacion_id',
         'activo',
         'nivel_contacto',
-        'created_by', //relacion con User
-        'updated_by', //relacion con User
-        'puesto_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function organizacion()

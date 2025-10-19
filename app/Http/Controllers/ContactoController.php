@@ -35,7 +35,6 @@ class ContactoController extends Controller
             'formacion' => 'required|string|max:100',
             'extension' => 'nullable|string|max:100',
             'email_institucional' => 'required|email|max:100|unique:contactos',
-            'email_personal' => 'nullable|email|max:100',
             'organizacion_id' => 'required|exists:organizaciones,id',
             'activo' => 'required|boolean',
             'nivel_contacto' => 'required|string|max:50',

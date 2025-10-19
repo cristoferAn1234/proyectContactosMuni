@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -99,4 +100,33 @@ public function asignRole(Request $request, $id,$idadmin)
 
     return response()->json(['message' => 'Rol asignado correctamente'], 200);
 }
+
+public function getUsersPendingApproval(Request $request)
+{
+    $status = $request->input('status', 'all');
+
+    $query = User::query();
+
+    if ($status !== 'all') {
+        switch ($status) {
+            case 'pendiente':
+                $query->where('aprobado', 'pendiente');
+                break;
+            case 'aprobado':
+                $query->where('aprobado', 'aprobado');
+                break;
+            case 'no_aprobado':
+                $query->where('aprobado', 'no_aprobado');
+                break;
+            default:
+                return response()->json(['message' => 'Filtro inválido'], 400);
+        }
+    }
+
+    $users = $query->select('id', 'name', 'email', 'aprobado', 'role')->get();
+
+    // Return view (Blade expects HTML from the select form)
+    return view('userTcu.solicitudes', ['users' => $users]);
+}
+
 }
