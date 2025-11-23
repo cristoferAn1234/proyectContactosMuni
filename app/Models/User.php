@@ -56,4 +56,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Organizacion::class);
     }
+
+    // Scope para filtrar usuarios por estado de aprobación
+    public function scopeByAprobado($query, $estado)
+{
+    return $query->where('aprobado', $estado);
+}
 }

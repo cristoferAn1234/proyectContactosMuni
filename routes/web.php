@@ -16,8 +16,17 @@ Route::get('/dashboard', function () {
 //Obtener todos los usuarios (solo para administradores)
 Route::prefix('users')->group(function () {
     Route::post('/filters', [UserController::class, 'getUsersPendingApproval'])->middleware(['auth', 'verified'])->name('users.filter');
-    Route::get('/', [UserController::class, 'getUsersPendingApproval'])->middleware(['auth', 'verified'])->name('users.pendingApproval');
+    Route::get('/', [UserController::class, 'getUsersPendingApproval'])->middleware(['auth', 'verified'])->name('users.getAll');
+    Route::post('/{id}/approve', [UserController::class, 'approveUser'])->middleware(['auth', 'verified'])->name('users.approve');
+    Route::post('/{id}/reject', [UserController::class, 'rejectUser'])->middleware(['auth', 'verified'])->name('users.reject');
 });
+
+//Gestion de Usuarios TCU, solo para administradores
+Route::prefix('userTcu')->group(function () {
+    Route::get('/gestionUsuarios', [UserController::class, 'viewGestionUsuarios'])->middleware(['auth', 'verified'])->name('userTcu.gestionUsuarios');
+});
+
+
 
 // Rutas protegidas por autenticación
 Route::middleware('auth')->group(function () {

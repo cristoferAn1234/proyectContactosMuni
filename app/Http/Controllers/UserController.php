@@ -6,7 +6,13 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\ViewErrorBag;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
+use  Illuminate\Database\Eloquent\ModelNotFoundException;
+use Exception;
+use App\Models\Organizacion;
+
 
 class UserController extends Controller
 {
@@ -122,11 +128,61 @@ public function getUsersPendingApproval(Request $request)
                 return response()->json(['message' => 'Filtro inválido'], 400);
         }
     }
+    
 
     $users = $query->select('id', 'name', 'email', 'aprobado', 'role')->get();
 
     // Return view (Blade expects HTML from the select form)
     return view('userTcu.solicitudes', ['users' => $users]);
 }
+
+// Aprobar usuario
+public function approveUser( $id)
+{
+    try {
+        $user = User::findOrFail($id);
+        $user->aprobado = 'aprobado';
+        $user->save();
+
+        return redirect()->route('users.getAll')->with('success', 'Usuario aprobado correctamente.');
+    } catch (ModelNotFoundException $e) {
+        return redirect()->route('users.getAll')->with('error', 'Usuario no encontrado.');
+    } catch (Exception $e) {
+        Log::error('Error approving user (id: '.$id.'): '.$e->getMessage());
+   return redirect()->route('users.getAll')
+            ->with('error', 'Ocurrió un error al aprobar el usuario.');
+    }
+}
+
+// Rechazar usuario
+public function rejectUser( $id) 
+{
+    try {
+        $user = User::findOrFail($id);
+        $user->aprobado = 'no_aprobado';
+        $user->save();
+
+        return redirect()->route('users.getAll')->with('success', 'Usuario rechazado correctamente.');
+    } catch (ModelNotFoundException $e) {
+        return redirect()->route('users.getAll')->with('error', 'Usuario no encontrado.');
+    } catch (Exception $e) {
+        Log::error('Error rejecting user (id: '.$id.'): '.$e->getMessage());
+        return redirect()->route('users.getAll')
+            ->with('error', 'Ocurrió un error al rechazar el usuario.');
+    }
+
+}
+
+//********************************************************************************************* */
+// Vista de gestión de usuarios TCU
+public function viewGestionUsuarios(){
+  $users = User::byAprobado("aprobado")->get();
+  $Organizations = Organizacion::all();
+    return view('userTcu.gestionUsuarios', compact('users', 'Organizations'));
+}
+
+
+
+
 
 }
