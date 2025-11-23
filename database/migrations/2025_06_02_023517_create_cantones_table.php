@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('municipalidades', function (Blueprint $table) {
-             $table->id();
-            $table->string('nombre')->unique();
-            $table->unsignedBigInteger('id_provincia');
-            $table->foreign('id_provincia')->references('id')->on('provincias')->onDelete('cascade');
+        Schema::create('cantones', function (Blueprint $table) {
+            $table->unsignedSmallInteger('id')->primary();
+            $table->string('nombre', 100);
+            $table->unsignedTinyInteger('provincia_id');
+            $table->foreign('provincia_id')->references('id')->on('provincias')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('municipalidades');
+        Schema::dropIfExists('cantones');
     }
 };
