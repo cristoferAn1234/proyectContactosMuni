@@ -129,4 +129,28 @@ public function getUsersPendingApproval(Request $request)
     return view('userTcu.solicitudes', ['users' => $users]);
 }
 
+/**
+ * Aprobar un usuario
+ */
+public function approveUser($id)
+{
+    $user = User::findOrFail($id);
+    $user->aprobado = 'aprobado';
+    $user->save();
+
+    return redirect()->back()->with('success', 'Usuario aprobado correctamente.');
+}
+
+/**
+ * Rechazar un usuario
+ */
+public function rejectUser($id)
+{
+    $user = User::findOrFail($id);
+    $user->aprobado = 'no_aprobado';
+    $user->save();
+
+    return redirect()->back()->with('success', 'Usuario rechazado.');
+}
+
 }

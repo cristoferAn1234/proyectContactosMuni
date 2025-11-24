@@ -12,7 +12,7 @@ class deleteContactos
     public function deleteContactos(User $user, Contacto $contacto): bool
     {
       
-        return $user->rol === 'admin'; 
+        return $user->role === 'admin'; 
     }
 
    

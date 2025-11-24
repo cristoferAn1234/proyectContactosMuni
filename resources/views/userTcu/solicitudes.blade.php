@@ -8,7 +8,7 @@
             <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
                 {{ __('Solicitudes de Usuarios') }}
             </h2>
-            <P style="color: blue;">Gestiona las Solicitudes de nuevos usuarios desde aquí.</P>
+            <P style="color: #00ADED;">Gestiona las Solicitudes de nuevos usuarios desde aquí.</P>
             <div class="rounded-lg border-2 border-gray-300 bg-white bg-opacity-40 shadow-inner p-4 mb-6">
                 <div class="table-responsive">
                     <div style="display: flex; justify-content: space-between; align-items: center;">

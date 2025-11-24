@@ -22,7 +22,7 @@ return new class extends Migration
                 $table->string('urlPageWeb', 200)->nullable();
                 $table->unsignedBigInteger('provincia_id');
                 $table->foreign('provincia_id')->references('id')->on('provincias');
-                $table->unsignedBigInteger('canton_id');
+                $table->unsignedSmallInteger('canton_id');
                 $table->foreign('canton_id')->references('id')->on('cantones');
                 $table->unsignedBigInteger('distrito_id');
                 $table->foreign('distrito_id')->references('id')->on('distritos');

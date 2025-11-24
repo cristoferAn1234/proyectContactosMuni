@@ -8,17 +8,55 @@ use Illuminate\Http\Request;
 class ContactoController extends Controller
 {
     // Obtener todos los contactos
-    public function index()
+    public function index(Request $request)
     {
         $contactos = Contacto::with(['organizacion', 'createdBy', 'updatedBy', 'telefonos'])->get();
-        return response()->json($contactos);
+        
+        // Si la petición es AJAX o espera JSON, retornar JSON
+        if ($request->expectsJson() || $request->is('api/*')) {
+            return response()->json($contactos);
+        }
+        
+        // Cargar datos necesarios para el modal de crear
+        $organizaciones = \App\Models\Organizacion::all();
+        $puestos = \App\Models\Puesto::all();
+        
+        // Si no, retornar la vista Blade con los datos necesarios
+        return view('contactos.index', compact('contactos', 'organizaciones', 'puestos'));
     }
 
     // Mostrar un contacto específico
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $contacto = Contacto::with(['organizacion', 'createdBy', 'updatedBy', 'telefonos'])->findOrFail($id);
-        return response()->json($contacto);
+        
+        // Si la petición es AJAX o espera JSON, retornar JSON
+        if ($request->expectsJson() || $request->is('api/*')) {
+            return response()->json($contacto);
+        }
+        
+        // Si no, retornar la vista Blade
+        return view('contactos.show', ['contacto' => $contacto]);
+    }
+
+    // Mostrar formulario para crear contacto
+    public function create()
+    {
+        // Cargar datos necesarios para el formulario
+        $organizaciones = \App\Models\Organizacion::all();
+        $puestos = \App\Models\Puesto::all();
+        
+        return view('contactos.create', compact('organizaciones', 'puestos'));
+    }
+
+    // Mostrar formulario para editar contacto
+    public function edit($id)
+    {
+        $contacto = Contacto::with(['organizacion', 'telefonos'])->findOrFail($id);
+        $organizaciones = \App\Models\Organizacion::all();
+        $puestos = \App\Models\Puesto::all();
+        
+        return view('contactos.edit', compact('contacto', 'organizaciones', 'puestos'));
     }
 
     // Crear un nuevo contacto
@@ -38,13 +76,15 @@ class ContactoController extends Controller
             'organizacion_id' => 'required|exists:organizaciones,id',
             'activo' => 'required|boolean',
             'nivel_contacto' => 'required|string|max:50',
-            'created_by' => 'required|exists:users,id',
-            'updated_by' => 'required|exists:users,id',
         ]);
+
+        // Agregar usuario que crea y actualiza
+        $validated['created_by'] = auth()->id();
+        $validated['updated_by'] = auth()->id();
 
         $contacto = Contacto::create($validated);
 
-        return response()->json($contacto, 201);
+        return redirect()->route('contactos.index')->with('success', 'Contacto creado exitosamente.');
     }
 
     // Actualizar un contacto
@@ -63,17 +103,17 @@ class ContactoController extends Controller
             'formacion' => 'required|string|max:100',
             'extension' => 'nullable|string|max:100',
             'email_institucional' => 'required|email|max:100|unique:contactos,email_institucional,' . $id,
-            'email_personal' => 'nullable|email|max:100',
             'organizacion_id' => 'required|exists:organizaciones,id',
             'activo' => 'required|boolean',
             'nivel_contacto' => 'required|string|max:50',
-            'created_by' => 'required|exists:users,id',
-            'updated_by' => 'required|exists:users,id',
         ]);
+
+        // Actualizar usuario que modifica
+        $validated['updated_by'] = auth()->id();
 
         $contacto->update($validated);
 
-        return response()->json($contacto);
+        return redirect()->route('contactos.index')->with('success', 'Contacto actualizado exitosamente.');
     }
 
     // Eliminar un contacto
@@ -82,6 +122,6 @@ class ContactoController extends Controller
         $contacto = Contacto::findOrFail($id);
         $contacto->delete();
 
-        return response()->json(['message' => 'Contacto eliminado correctamente.']);
+        return redirect()->route('contactos.index')->with('success', 'Contacto eliminado correctamente.');
     }
 }

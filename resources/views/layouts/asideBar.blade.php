@@ -5,23 +5,23 @@
             <nav class="px-4">
                 <ul class="space-y-4">
                     <li>
-                        <a href="" class="block text-gray-700 dark:text-dark-200 hover:underline">
+                        <a href="{{ route('dashboard') }}" class="block text-gray-700 dark:text-dark-200 hover:underline">
                             Inicio
                         </a>
                     </li>
                     <li>
-                        <a href="" class="block text-gray-700 dark:text-dark-200 hover:underline">
+                        <a href="{{ route('organizaciones.index') }}" class="block text-gray-700 dark:text-dark-200 hover:underline">
                             Organizaciones
                         </a>
                     </li>
                     <li>
-                        <a href="" class="block text-gray-700 dark:text-dark-200 hover:underline">
+                        <a href="{{ route('contactos.index') }}" class="block text-gray-700 dark:text-dark-200 hover:underline">
                             Contactos
                         </a>
                     </li>
                     @if(Auth::user() && Auth::user()->role === 'admin')
                         <li>
-                            <a href="" class="block text-gray-700 dark:text-dark-200 hover:underline">
+                            <a href="{{ route('users.pendingApproval') }}" class="block text-gray-700 dark:text-dark-200 hover:underline">
                                 Gestión de Usuarios
                             </a>
                         </li>
@@ -32,9 +32,13 @@
                         </li>
                     @endif
                     <li>
-                        <a href="" class="block text-gray-700 dark:text-dark-200 hover:underline">
-                            Cerrar Sesión
-                        </a>
+                        <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                            @csrf
+                            <button type="submit" class="block text-gray-700 dark:text-dark-200 hover:underline text-left w-full">
+                                Cerrar Sesión
+                            </button>
+                        </form>
+                    </a>
                     </li>
                 </ul>
             </nav>
