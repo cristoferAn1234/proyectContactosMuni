@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('telefonos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_Contacto');
-            $table->foreign('id_Contacto')->references('id')->on('contactos')->onDelete('cascade');
+           $table->unsignedBigInteger('contacto_id');
+            $table->foreign('contacto_id')->references('id')->on('contactos')->onDelete('cascade');
             $table->string('numero',20)->unique();
             $table->enum('tipo', ['fijo', 'celular'])->default('celular');
             $table->timestamps();

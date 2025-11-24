@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('instituciones', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre')->unique();
+        Schema::create('distritos', function (Blueprint $table) {
+            $table->unsignedBigInteger('id')->primary();
+            $table->string('nombre', 150);
+            $table->unsignedSmallInteger('canton_id');
+            $table->foreign('canton_id')->references('id')->on('cantones')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('instituciones');
+        Schema::dropIfExists('distritos');
     }
 };

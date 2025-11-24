@@ -1,61 +1,301 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📇 Sistema de Gestión de Contactos Municipales
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+> Sistema web para la gestión de contactos y organizaciones de instituciones municipales de Costa Rica
 
-## About Laravel
+[![Laravel](https://img.shields.io/badge/Laravel-11.x-FF2D20?style=flat&logo=laravel)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=flat&logo=php)](https://php.net)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📋 Descripción
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Sistema de gestión desarrollado en Laravel 11 para administrar contactos de organizaciones municipales. Incluye:
 
-## Learning Laravel
+- 🏢 Gestión de organizaciones (instituciones públicas/privadas)
+- 👥 Gestión de contactos (personas dentro de las organizaciones)
+- 📍 Sistema de ubicación geográfica (provincias, cantones, distritos de Costa Rica)
+- 🔐 Sistema de roles y permisos (Admin/User)
+- ✅ Sistema de aprobación de usuarios
+- 🔒 Autenticación segura con Laravel Sanctum
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 🚀 Inicio Rápido
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Requisitos Previos
+- PHP >= 8.2
+- Composer
+- Node.js & NPM
+- MySQL/MariaDB
+- Laragon (recomendado para Windows)
 
-## Laravel Sponsors
+### Instalación
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/cristoferAn1234/proyectContactosMuni.git
+cd proyectContactosMuni
 
-### Premium Partners
+# 2. Instalar dependencias PHP
+composer install
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+# 3. Instalar dependencias Node
+npm install
 
-## Contributing
+# 4. Configurar variables de entorno
+cp .env.example .env
+php artisan key:generate
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# 5. Configurar base de datos en .env
+DB_DATABASE=contactos_muni
+DB_USERNAME=root
+DB_PASSWORD=
 
-## Code of Conduct
+# 6. Ejecutar migraciones y seeders
+php artisan migrate:fresh --seed
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# 7. Iniciar servidores
+# Terminal 1
+php artisan serve
 
-## Security Vulnerabilities
+# Terminal 2
+npm run dev
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 🔑 Acceso Inicial
 
-## License
+Después de ejecutar los seeders, usa estas credenciales:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```
+🌐 URL: http://127.0.0.1:8000/login
+
+📧 Email: admin@contactosmuni.com
+🔑 Password: Admin123!
+```
+
+⚠️ **IMPORTANTE:** Cambiar la contraseña después del primer inicio de sesión
+
+---
+
+## 📚 Documentación
+
+## 📚 Documentación
+
+| Documento | Descripción |
+|-----------|-------------|
+| 🚀 [INICIO_RAPIDO.md](./INICIO_RAPIDO.md) | Guía de inicio rápido en 3 pasos |
+| 📄 [INFORME_AUDITORIA_Y_CORRECCIONES.md](./INFORME_AUDITORIA_Y_CORRECCIONES.md) | Análisis completo de problemas y soluciones |
+| 📊 [DIAGRAMA_ROLES.md](./DIAGRAMA_ROLES.md) | Visualización del sistema de roles y permisos |
+| 📝 [RESUMEN_CAMBIOS.md](./RESUMEN_CAMBIOS.md) | Lista de todos los cambios implementados |
+| 🔐 [CREDENCIALES_ADMIN.md](./CREDENCIALES_ADMIN.md) | Credenciales de acceso y seguridad |
+
+---
+
+## 🎭 Sistema de Roles
+
+### Roles Disponibles
+
+| Rol | Descripción | Permisos |
+|-----|-------------|----------|
+| **admin** | Administrador del sistema | Acceso completo, gestión de usuarios, eliminar registros |
+| **user** | Usuario regular | Ver, crear y editar contactos/organizaciones |
+
+### Estados de Usuario
+
+| Estado | Descripción | Acceso |
+|--------|-------------|--------|
+| **aprobado** | Usuario autorizado | ✅ Acceso completo según su rol |
+| **pendiente** | Esperando aprobación | ❌ Sin acceso al sistema |
+| **no_aprobado** | Usuario rechazado | ❌ Sin acceso al sistema |
+
+---
+
+## 🗄️ Estructura de la Base de Datos
+
+### Tablas Principales
+
+- **users** - Usuarios del sistema
+- **organizaciones** - Instituciones/empresas
+- **contactos** - Personas dentro de organizaciones
+- **telefonos** - Números telefónicos de contactos
+- **provincias** - Provincias de Costa Rica
+- **cantones** - Cantones por provincia
+- **distritos** - Distritos por cantón
+- **tiposOrganizacion** - Tipos de organizaciones
+- **puestos** - Cargos/posiciones laborales
+
+---
+
+## 🛡️ Middleware Implementados
+
+### CheckRole
+Verifica que el usuario tenga el rol requerido.
+
+```php
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    // Rutas solo para administradores
+});
+```
+
+### CheckApproved
+Verifica que el usuario esté aprobado.
+
+```php
+Route::middleware(['auth', 'approved'])->group(function () {
+    // Rutas solo para usuarios aprobados
+});
+```
+
+---
+
+## 📍 Rutas Principales
+
+### Públicas
+```
+GET  /                  # Página de inicio
+GET  /login             # Iniciar sesión
+POST /login             # Procesar login
+GET  /register          # Registro
+POST /register          # Procesar registro
+```
+
+### Usuario Aprobado
+```
+GET  /dashboard                      # Panel principal
+GET  /contactos                      # Listar contactos
+POST /contactos                      # Crear contacto
+GET  /organizaciones                 # Listar organizaciones
+POST /organizaciones                 # Crear organización
+```
+
+### Administrador
+```
+GET  /users                          # Gestionar usuarios
+POST /users/{id}/approve             # Aprobar usuario
+POST /users/{id}/reject              # Rechazar usuario
+DELETE /contactos/{id}               # Eliminar contacto
+DELETE /organizaciones/{id}          # Eliminar organización
+```
+
+---
+
+## 🔧 Comandos Útiles
+
+```bash
+# Reiniciar base de datos
+php artisan migrate:fresh --seed
+
+# Crear solo usuario admin
+php artisan db:seed --class=AdminUserSeeder
+
+# Limpiar caché
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+
+# Ver todas las rutas
+php artisan route:list
+
+# Acceder a consola interactiva
+php artisan tinker
+```
+
+---
+
+## 🧪 Testing
+
+```bash
+# Ejecutar todos los tests
+php artisan test
+
+# Tests específicos
+php artisan test --filter=RoleMiddlewareTest
+```
+
+---
+
+## 🚨 Solución de Problemas
+
+### Error: Vite manifest not found
+```bash
+npm install
+npm run dev
+```
+
+### Error: No puedo acceder al dashboard
+- Verificar que el usuario esté **aprobado** (`aprobado = 'aprobado'`)
+- El administrador debe aprobar usuarios en `/users`
+
+### Olvidé la contraseña del admin
+```bash
+php artisan tinker
+```
+```php
+$admin = User::where('email', 'admin@contactosmuni.com')->first();
+$admin->password = Hash::make('NuevaContraseña123!');
+$admin->save();
+```
+
+---
+
+## 📊 Características Implementadas
+
+- ✅ Sistema de autenticación con Laravel Sanctum
+- ✅ Sistema de roles y permisos
+- ✅ Aprobación de usuarios por administrador
+- ✅ CRUD completo para organizaciones y contactos
+- ✅ Gestión de ubicación geográfica de Costa Rica
+- ✅ Middleware de protección de rutas
+- ✅ Políticas de autorización
+- ✅ Seeders automáticos con datos de prueba
+- ✅ Interfaz responsive con Tailwind CSS
+
+---
+
+## 🔮 Próximas Mejoras
+
+- [ ] Dashboard con estadísticas
+- [ ] Notificaciones por email
+- [ ] Exportación de datos (Excel/PDF)
+- [ ] Sistema de búsqueda avanzada
+- [ ] Autenticación de dos factores (2FA)
+- [ ] API REST documentada con Swagger
+- [ ] Logs de auditoría
+- [ ] Tests unitarios y de integración
+
+---
+
+## 👥 Equipo de Desarrollo
+
+- **Repositorio:** [cristoferAn1234/proyectContactosMuni](https://github.com/cristoferAn1234/proyectContactosMuni)
+- **Branch:** Kristin
+
+---
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT. Ver el archivo [LICENSE](LICENSE) para más detalles.
+
+---
+
+## 🙏 Agradecimientos
+
+- [Laravel](https://laravel.com) - Framework PHP
+- [Tailwind CSS](https://tailwindcss.com) - Framework CSS
+- [Vite](https://vitejs.dev) - Build tool
+
+---
+
+## 📞 Soporte
+
+Para reportar problemas o sugerencias:
+- 🐛 [Issues en GitHub](https://github.com/cristoferAn1234/proyectContactosMuni/issues)
+- 📧 Email de soporte (configurar)
+- 📖 Consultar documentación en la carpeta del proyecto
+
+---
+
+**Última actualización:** 23/11/2025  
+**Versión:** 1.0  
+**Estado:** ✅ En producción
