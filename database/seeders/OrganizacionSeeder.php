@@ -25,13 +25,13 @@ class OrganizacionSeeder extends Seeder
         $tipo = TipoOrganizacion::first();
         $user = User::where('role', 'admin')->first();
 
-        // Crear 3 organizaciones de prueba
+        // Crear 4 organizaciones de prueba
         $organizaciones = [
             [
-                'ced_juridica' => 3101123456,
+                'ced_juridica' => 3101223456,
                 'nombre' => 'Municipalidad de San José',
                 'tipo_id' => $tipo->id ?? 1,
-                'telefono' => '2547-6000',
+                'telefono' => '2547-8000',
                 'correo' => 'info@msj.go.cr',
                 'urlPageWeb' => 'https://www.msj.go.cr',
                 'provincia_id' => $provincia->id ?? 1,
@@ -43,10 +43,10 @@ class OrganizacionSeeder extends Seeder
                 'user_id' => $user->id ?? 1,
             ],
             [
-                'ced_juridica' => 3101234567,
+                'ced_juridica' => 3101274567,
                 'nombre' => 'Ministerio de Educación Pública',
                 'tipo_id' => $tipo->id ?? 1,
-                'telefono' => '2547-5000',
+                'telefono' => '2547-9000',
                 'correo' => 'info@mep.go.cr',
                 'urlPageWeb' => 'https://www.mep.go.cr',
                 'provincia_id' => $provincia->id ?? 1,
@@ -58,10 +58,10 @@ class OrganizacionSeeder extends Seeder
                 'user_id' => $user->id ?? 1,
             ],
             [
-                'ced_juridica' => 3101345678,
+                'ced_juridica' => 310135678,
                 'nombre' => 'Caja Costarricense de Seguro Social',
                 'tipo_id' => $tipo->id ?? 1,
-                'telefono' => '2547-4000',
+                'telefono' => '2547-2000',
                 'correo' => 'consultas@ccss.sa.cr',
                 'urlPageWeb' => 'https://www.ccss.sa.cr',
                 'provincia_id' => $provincia->id ?? 1,
@@ -72,12 +72,27 @@ class OrganizacionSeeder extends Seeder
                 'urlDirectorioTelefonico' => 'https://www.ccss.sa.cr/directorio',
                 'user_id' => $user->id ?? 1,
             ],
+            [
+                'ced_juridica' => 3101456789,
+                'nombre' => 'Instituto Costarricense de Electricidad',
+                'tipo_id' => $tipo->id ?? 1,
+                'telefono' => '2547-3000',
+                'correo' => 'info@ice.go.cr',
+                'urlPageWeb' => 'https://www.ice.go.cr',
+                'provincia_id' => $provincia->id ?? 1,
+                'canton_id' => $canton->id ?? 1,
+                'distrito_id' => $distrito->id ?? 1,
+                'ubi_lat' => '9.940000',
+                'ubi_long' => '-84.082222',
+                'urlDirectorioTelefonico' => 'https://www.ice.go.cr/directorio',
+                'user_id' => $user->id ?? 1,
+            ],
         ];
 
         foreach ($organizaciones as $org) {
             Organizacion::create($org);
         }
 
-        $this->command->info('✓ 3 organizaciones de prueba creadas exitosamente.');
+        $this->command->info('✓ 4 organizaciones de prueba creadas exitosamente.');
     }
 }

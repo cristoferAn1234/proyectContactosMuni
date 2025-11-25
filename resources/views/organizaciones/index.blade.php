@@ -6,67 +6,61 @@
         <!-- Contenido principal -->
         <main class="flex-1 p-8 bg-gray-100 dark:bg-gray-800">
             <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
-                {{ __('Gestión de Contactos') }}
+                {{ __('Gestión de Organizaciones') }}
             </h2>
-            <p style="color: #00ADED;">Gestiona todos los contactos de las organizaciones desde aquí.</p>
+            <p style="color: #00ADED;">Gestiona todas las organizaciones desde aquí.</p>
             
             <div class="rounded-lg border-2 border-gray-300 bg-white bg-opacity-40 shadow-inner p-4 mb-6">
                 <div class="table-responsive">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                        <h2 class="text-xl font-semibold text-gray-900 dark:text-dark-200">Lista de Contactos</h2>
+                        <h2 class="text-xl font-semibold text-gray-900 dark:text-dark-200">Lista de Organizaciones</h2>
                         
-                        <!-- Botón para agregar nuevo contacto -->
+                        <!-- Botón para agregar nueva organización -->
                         <button type="button" class="btn btn-primary" style="background-color: #00ADED; border-color: #00ADED;" 
-                                data-bs-toggle="modal" data-bs-target="#createContactoModal">
-                            <i class="fas fa-plus"></i> Nuevo Contacto
+                                data-bs-toggle="modal" data-bs-target="#createOrganizacionModal">
+                            <i class="fas fa-plus"></i> Nueva Organización
                         </button>
                     </div>
                     
-                    <!-- Tabla de contactos -->
+                    <!-- Tabla de organizaciones -->
                     <table class="table">
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Nombre Completo</th>
-                                <th scope="col">Email Institucional</th>
-                                <th scope="col">Puesto</th>
-                                <th scope="col">Organización</th>
-                                <th scope="col">Departamento</th>
-                                <th scope="col">Estado</th>
+                                <th scope="col">Cédula Jurídica</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Tipo</th>
+                                <th scope="col">Teléfono</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Provincia</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($contactos as $contacto)
+                            @forelse($organizaciones as $organizacion)
                             <tr>
-                                <td>{{ $contacto->id }}</td>
-                                <td>{{ $contacto->nombre }} {{ $contacto->apellido1 }} {{ $contacto->apellido2 }}</td>
-                                <td>{{ $contacto->email_institucional }}</td>
-                                <td>{{ $contacto->puesto }}</td>
-                                <td>{{ $contacto->organizacion->nombre ?? 'N/A' }}</td>
-                                <td>{{ $contacto->departamento }}</td>
-                                <td>
-                                    @if($contacto->activo)
-                                        <span class="badge bg-success">Activo</span>
-                                    @else
-                                        <span class="badge bg-secondary">Inactivo</span>
-                                    @endif
-                                </td>
+                                <td>{{ $organizacion->id }}</td>
+                                <td>{{ $organizacion->ced_juridica }}</td>
+                                <td>{{ $organizacion->nombre }}</td>
+                                <td>{{ $organizacion->tipo->nombre ?? 'N/A' }}</td>
+                                <td>{{ $organizacion->telefono }}</td>
+                                <td>{{ $organizacion->correo }}</td>
+                                <td>{{ $organizacion->provincia->nombre ?? 'N/A' }}</td>
                                 <td>
                                     <!-- Botón Ver -->
-                                    <a href="{{ route('contactos.show', $contacto->id) }}" class="btn btn-info btn-sm" title="Ver detalles">
+                                    <a href="{{ route('organizaciones.show', $organizacion->id) }}" class="btn btn-info btn-sm" title="Ver detalles">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                     
                                     <!-- Botón Editar -->
-                                    <a href="{{ route('contactos.edit', $contacto->id) }}" class="btn btn-warning btn-sm" title="Editar">
+                                    <a href="{{ route('organizaciones.edit', $organizacion->id) }}" class="btn btn-warning btn-sm" title="Editar">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     
                                     <!-- Botón Eliminar (solo admin) -->
                                     @if(auth()->user()->role === 'admin')
                                     <button type="button" class="btn btn-danger btn-sm" title="Eliminar" 
-                                            onclick="openDeleteModal({{ $contacto->id }}, '{{ $contacto->nombre }} {{ $contacto->apellido1 }}')">
+                                            onclick="openDeleteModal({{ $organizacion->id }}, '{{ $organizacion->nombre }}')">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                     @endif
@@ -75,7 +69,7 @@
                             @empty
                             <tr>
                                 <td colspan="8" class="text-center text-gray-500">
-                                    No hay contactos registrados aún.
+                                    No hay organizaciones registradas aún.
                                 </td>
                             </tr>
                             @endforelse
@@ -101,8 +95,8 @@
         </main>
     </div>
     
-    <!-- Incluir el Modal de Crear Contacto -->
-    @include('contactos.create')
+    <!-- Incluir el Modal de Crear Organización -->
+    @include('organizaciones.create')
     
     <!-- Modal de Confirmación para Eliminar -->
     <div id="deleteModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
@@ -111,10 +105,10 @@
                 <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
                     <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
                 </div>
-                <h3 class="text-lg leading-6 font-medium text-gray-900 mt-4">Eliminar Contacto</h3>
+                <h3 class="text-lg leading-6 font-medium text-gray-900 mt-4">Eliminar Organización</h3>
                 <div class="mt-2 px-7 py-3">
                     <p class="text-sm text-gray-500">
-                        ¿Estás seguro de que deseas eliminar a <strong id="contactoName"></strong>?
+                        ¿Estás seguro de que deseas eliminar <strong id="organizacionName"></strong>?
                         Esta acción no se puede deshacer.
                     </p>
                 </div>
@@ -139,23 +133,23 @@
     </form>
     
     <script>
-        let deleteContactoId = null;
+        let deleteOrganizacionId = null;
         
         function openDeleteModal(id, name) {
-            deleteContactoId = id;
-            document.getElementById('contactoName').textContent = name;
+            deleteOrganizacionId = id;
+            document.getElementById('organizacionName').textContent = name;
             document.getElementById('deleteModal').classList.remove('hidden');
         }
         
         function closeDeleteModal() {
             document.getElementById('deleteModal').classList.add('hidden');
-            deleteContactoId = null;
+            deleteOrganizacionId = null;
         }
         
         document.getElementById('confirmDelete').addEventListener('click', function() {
-            if (deleteContactoId) {
+            if (deleteOrganizacionId) {
                 const form = document.getElementById('deleteForm');
-                form.action = `/contactos/${deleteContactoId}`;
+                form.action = `/organizaciones/${deleteOrganizacionId}`;
                 form.submit();
             }
         });
@@ -170,7 +164,7 @@
         // Reabrir modal si hay errores de validación
         @if($errors->any())
         document.addEventListener('DOMContentLoaded', function() {
-            var myModal = new bootstrap.Modal(document.getElementById('createContactoModal'));
+            var myModal = new bootstrap.Modal(document.getElementById('createOrganizacionModal'));
             myModal.show();
         });
         @endif
