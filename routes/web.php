@@ -67,8 +67,10 @@ Route::middleware(['auth', 'verified', 'approved'])->group(function () {
     // Gestión de organizaciones
     Route::prefix('organizaciones')->name('organizaciones.')->group(function () {
         Route::get('/', [\App\Http\Controllers\OrganizacionController::class, 'index'])->name('index');
+        Route::get('/create', [\App\Http\Controllers\OrganizacionController::class, 'create'])->name('create');
         Route::post('/', [\App\Http\Controllers\OrganizacionController::class, 'store'])->name('store');
         Route::get('/{id}', [\App\Http\Controllers\OrganizacionController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [\App\Http\Controllers\OrganizacionController::class, 'edit'])->name('edit');
         Route::put('/{id}', [\App\Http\Controllers\OrganizacionController::class, 'update'])->name('update');
         Route::delete('/{id}', [\App\Http\Controllers\OrganizacionController::class, 'destroy'])->name('destroy')->middleware('role:admin');
     });

@@ -21,6 +21,10 @@ class DatabaseSeeder extends Seeder
         $this->call(CantonesSeeder::class);
         $this->call(DistritosSeeder::class);
         
+        // Datos de prueba para organizaciones y contactos
+        $this->call(OrganizacionSeeder::class);
+        $this->call(ContactoSeeder::class);
+        
         // Usuario de prueba (comentado para evitar duplicados)
         // User::factory()->create([
         //     'name' => 'Cristofer',
