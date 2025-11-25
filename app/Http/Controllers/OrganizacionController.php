@@ -11,7 +11,7 @@ class OrganizacionController extends Controller
     // Mostrar todas las organizaciones
     public function index()
     {
-        $organizaciones = Organizacion::with(['tipo', 'provincia', 'user'])->get();
+        $organizaciones = Organizacion::with(['tipo', 'provincia'])->get();
         return response()->json($organizaciones);
     }
 
@@ -79,5 +79,42 @@ class OrganizacionController extends Controller
         $organizacion->delete();
 
         return response()->json(['message' => 'Organización eliminada']);
+    }
+
+    public function disponibles()
+    {
+        return Organizacion::whereNull('user_id')
+        ->select('id', 'nombre')
+        ->get();
+    }
+
+    public function desasignarUsuario($id, $userId)
+    {
+        $organizacion = Organizacion::where('id', $id)
+            ->where('user_id', $userId)
+            ->firstOrFail();
+
+        $organizacion->user_id = null;
+        $organizacion->save();
+
+        return response()->json(['message' => 'Usuario desasignado de la organización']);
+    }
+    public function assignarUsuario(Request $request)
+    {
+        $validated = $request->validate([
+            'organizacion_id' => 'required|exists:organizaciones,id',
+            'user_id' => 'required|exists:users,id',
+        ]);             
+
+        $organizacion = Organizacion::findOrFail($validated['organizacion_id']);
+        $organizacion->user_id = $validated['user_id'];
+        $organizacion->save();
+
+        return response()->json(['message' => 'Usuario asignado a la organización']);
+    }
+    public function asignaciones($id)
+    {
+        $organizacion = Organizacion::where('user_id', $id)->with('tipo')->get();
+        return response()->json($organizacion);
     }
 }

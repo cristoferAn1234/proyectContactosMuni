@@ -49,10 +49,14 @@ Route::prefix('contactos')->group(function () {
    // Route::delete('/{id}', [\App\Http\Controllers\ContactoController::class, 'destroy']);
 });
 Route::prefix('organizaciones')->group(function () {
-  //  Route::get('/', [\App\Http\Controllers\ContactoController::class, 'index']);
+    
+    Route::get('/disponibles', [\App\Http\Controllers\OrganizacionController::class, 'disponibles']);
+    Route::get('/{id}/asignaciones', [\App\Http\Controllers\OrganizacionController::class, 'asignaciones']);
     Route::post('/', [\App\Http\Controllers\OrganizacionController::class, 'store']);
-   // Route::get('/{id}', [\App\Http\Controllers\ContactoController::class, 'show']);
-   // Route::put('/{id}', [\App\Http\Controllers\ContactoController::class, 'update']);
-   // Route::delete('/{id}', [\App\Http\Controllers\ContactoController::class, 'destroy']);
+    Route::post('/AsignarUsuario', [\App\Http\Controllers\OrganizacionController::class, 'assignarUsuario']);
+    Route::delete('/delete/{id}/user/{userId}', [\App\Http\Controllers\OrganizacionController::class, 'desasignarUsuario']);
+   // Route::get('/{id}', [\App\Http\Controllers\OrganizacionController::class, 'show']);
+   // Route::put('/{id}', [\App\Http\Controllers\OrganizacionController::class, 'update']);
+   // Route::delete('/{id}', [\App\Http\Controllers\OrganizacionController::class, 'destroy']);
 });
 require __DIR__.'/auth.php';
