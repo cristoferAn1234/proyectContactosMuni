@@ -26,6 +26,7 @@ class OrganizacionController extends Controller
         
         // Si no, retornar la vista Blade
         return view('organizaciones.index', compact('organizaciones', 'tipos', 'provincias', 'cantones', 'distritos'));
+
     }
 
     // Mostrar una organización específica
@@ -155,5 +156,39 @@ class OrganizacionController extends Controller
         $organizacion->delete();
 
         return redirect()->route('organizaciones.index')->with('success', 'Organización eliminada correctamente.');
+    }
+
+    public function disponibles()
+    {
+        return Organizacion::whereNull('user_id')->with('tipo:id,nombre')->get();
+    }
+
+    public function desasignarUsuario($id, $userId)
+    {
+        $organizacion = Organizacion::where('id', $id)
+            ->where('user_id', $userId)
+            ->firstOrFail();
+
+        $organizacion->user_id = null;
+        $organizacion->save();
+
+        return response()->json(['message' => 'Usuario desasignado de la organización', 'organizacion' => $organizacion]);
+    }
+    public function assignarUsuario(Request $request)
+    {
+        $validated = $request->validate([
+            'organizacion_id' => 'required|exists:organizaciones,id',
+            'user_id' => 'required|exists:users,id',
+        ]);             
+
+        $organizacion = Organizacion::findOrFail($validated['organizacion_id']);
+        $organizacion->user_id = $validated['user_id'];
+        $organizacion->save();
+
+        return response()->json(['message' => 'Usuario asignado a la organización']);
+    }
+    public function asignaciones($id)
+    {
+        return Organizacion::where('user_id', $id)->with('tipo:id,nombre')->get();
     }
 }

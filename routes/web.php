@@ -17,19 +17,23 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified', 'approved'])->name('dashboard');
 
+
 // ============================================
 // RUTAS DE ADMINISTRADOR
 // ============================================
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     
-    // Gestión de usuarios (solo administradores)
     Route::prefix('users')->group(function () {
-        Route::get('/', [UserController::class, 'getUsersPendingApproval'])->name('users.pendingApproval');
-        Route::post('/filters', [UserController::class, 'getUsersPendingApproval'])->name('users.filter');
-        Route::post('/{id}/approve', [UserController::class, 'approveUser'])->name('users.approve');
-        Route::post('/{id}/reject', [UserController::class, 'rejectUser'])->name('users.reject');
-        Route::post('/{id}/assign-role', [UserController::class, 'asignRole'])->name('users.assignRole');
-    });
+    Route::post('/filters', [UserController::class, 'getUsersPendingApproval'])->middleware(['auth', 'verified'])->name('users.filter');
+    Route::get('/', [UserController::class, 'getUsersPendingApproval'])->middleware(['auth', 'verified'])->name('users.getAll');
+    Route::post('/{id}/approve', [UserController::class, 'approveUser'])->middleware(['auth', 'verified'])->name('users.approve');
+    Route::post('/{id}/reject', [UserController::class, 'rejectUser'])->middleware(['auth', 'verified'])->name('users.reject');
+    Route::post('/{id}/assign-role', [UserController::class, 'asignRole'])->name('users.assignRole');
+});
+
+Route::prefix('userTcu')->group(function () {
+    Route::get('/gestionUsuarios', [UserController::class, 'viewGestionUsuarios'])->middleware(['auth', 'verified'])->name('userTcu.gestionUsuarios');
+});
 
     // Gestión de tipos de organización (solo administradores)
     Route::prefix('tiposOrganizacion')->name('tiposOrganizacion.')->group(function () {
@@ -65,15 +69,24 @@ Route::middleware(['auth', 'verified', 'approved'])->group(function () {
     });
 
     // Gestión de organizaciones
-    Route::prefix('organizaciones')->name('organizaciones.')->group(function () {
-        Route::get('/', [\App\Http\Controllers\OrganizacionController::class, 'index'])->name('index');
-        Route::get('/create', [\App\Http\Controllers\OrganizacionController::class, 'create'])->name('create');
-        Route::post('/', [\App\Http\Controllers\OrganizacionController::class, 'store'])->name('store');
-        Route::get('/{id}', [\App\Http\Controllers\OrganizacionController::class, 'show'])->name('show');
-        Route::get('/{id}/edit', [\App\Http\Controllers\OrganizacionController::class, 'edit'])->name('edit');
-        Route::put('/{id}', [\App\Http\Controllers\OrganizacionController::class, 'update'])->name('update');
-        Route::delete('/{id}', [\App\Http\Controllers\OrganizacionController::class, 'destroy'])->name('destroy')->middleware('role:admin');
-    });
-});
+  Route::prefix('organizaciones')->name('organizaciones.')->group(function () {
 
+    // === RUTAS QUE YA TENÍAS Y NO HAY QUE CAMBIAR ===
+    Route::post('/', [\App\Http\Controllers\OrganizacionController::class, 'store'])->name('store');
+    Route::get('/', [\App\Http\Controllers\OrganizacionController::class, 'index'])->name('index');
+    Route::get('/disponibles', [\App\Http\Controllers\OrganizacionController::class, 'disponibles'])->name('disponibles');
+    Route::get('/{id}', [\App\Http\Controllers\OrganizacionController::class, 'show'])->name('show');
+    Route::get('/{id}/edit', [\App\Http\Controllers\OrganizacionController::class, 'edit'])->name('edit');
+    Route::get('/{id}/asignaciones', [\App\Http\Controllers\OrganizacionController::class, 'asignaciones'])->name('asignaciones');
+    Route::post('/AsignarUsuario', [\App\Http\Controllers\OrganizacionController::class, 'assignarUsuario'])->name('asignarUsuario');
+    Route::delete('/delete/{id}/user/{userId}', [\App\Http\Controllers\OrganizacionController::class, 'desasignarUsuario'])->name('desasignarUsuario');
+
+    // === SEGUNDO BLOQUE DE RUTAS (AGREGADO SIN CAMBIAR NADA) ===
+    Route::get('/create', [\App\Http\Controllers\OrganizacionController::class, 'create'])->name('create');
+    Route::put('/{id}', [\App\Http\Controllers\OrganizacionController::class, 'update'])->name('update');
+    Route::delete('/{id}', [\App\Http\Controllers\OrganizacionController::class, 'destroy'])
+        ->name('destroy')
+        ->middleware('role:admin');
+});
+});
 require __DIR__.'/auth.php';

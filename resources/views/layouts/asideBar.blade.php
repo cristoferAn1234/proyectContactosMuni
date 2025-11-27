@@ -21,12 +21,13 @@
                     </li>
                     @if(Auth::user() && Auth::user()->role === 'admin')
                         <li>
-                            <a href="{{ route('users.pendingApproval') }}" class="block text-gray-700 dark:text-dark-200 hover:underline">
+                            <a href="{{ route('userTcu.gestionUsuarios') }}" class="block text-gray-700 dark:text-dark-200 hover:underline">
+
                                 Gestión de Usuarios
                             </a>
                         </li>
                          <li>
-                            <a href="{{ route('users.pendingApproval') }}" class="block text-gray-700 dark:text-dark-200 hover:underline">
+                            <a href="{{ route('users.getAll') }}" class="block text-gray-700 dark:text-dark-200 hover:underline">
                                 Solicitudes 
                             </a>
                         </li>

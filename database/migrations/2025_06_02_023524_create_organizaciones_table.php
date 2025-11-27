@@ -24,7 +24,7 @@ return new class extends Migration
                 $table->foreign('provincia_id')->references('id')->on('provincias');
                 $table->unsignedSmallInteger('canton_id');
                 $table->foreign('canton_id')->references('id')->on('cantones');
-                $table->unsignedBigInteger('distrito_id');
+                $table->unsignedBigInteger('distrito_id')->nullable();
                 $table->foreign('distrito_id')->references('id')->on('distritos');
                 $table->decimal('ubi_Lat', 10, 8)->nullable();  // Decimal latitude
                 $table->decimal('ubi_long', 11, 8)->nullable(); //Decimal longitude

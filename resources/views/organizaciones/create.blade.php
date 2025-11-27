@@ -9,7 +9,7 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             
-            <form action="{{ route('organizaciones.store') }}" method="POST" id="createOrganizacionForm">
+            <form action="{{ route('') }}" method="POST" id="createOrganizacionForm">
                 @csrf
                 <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
                     

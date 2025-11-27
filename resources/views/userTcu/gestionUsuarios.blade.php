@@ -5,24 +5,13 @@
         <!-- Contenido principal -->
         <main class="flex-1 p-8 bg-gray-100 dark:bg-gray-800">
             <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
-                {{ __('Solicitudes de Usuarios') }}
+                {{ __('Gestion de Usuarios') }}
             </h2>
-            <P style="color: #00ADED;">Gestiona las Solicitudes de nuevos usuarios desde aquí.</P>
             <div class="rounded-lg border-2 border-gray-300 bg-white bg-opacity-40 shadow-inner p-4 mb-6">
                 <div class="table-responsive">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <h2 class="text-xl font-semibold text-gray-900 dark:text-dark-200 mb-4">Solicitudes </h2>
-                        <form method="post" action="{{ route('users.filter') }}" id="filterForm">
-                            @csrf
-                            <div style="display:flex; gap:8px; align-items:center; width:100%; justify-content:flex-end;">
-                                <select name="status" id="filterStatus" class="form-select" style="width:100%;" onchange="this.form.submit()">
-                                    <option value="all" {{ request('status', 'all') == 'all' ? 'selected' : '' }}>Todos</option>
-                                    <option value="pendiente" {{ request('status') == 'pendiente' ? 'selected' : '' }}>Pendientes</option>
-                                    <option value="aprobado" {{ request('status') == 'aprobado' ? 'selected' : '' }}>Aprobados</option>
-                                    <option value="no_aprobado" {{ request('status') == 'no_aprobado' ? 'selected' : '' }}>No Aprobados</option>
-                                </select>
-                            </div>
-                        </form>
+                        <h2 class="text-xl font-semibold text-gray-900 dark:text-dark-200 mb-4">Lista de Usuarios </h2>
+                        
                     </div>
                     <table class="table">
                         <thead>
@@ -31,6 +20,7 @@
                                 <th scope="col">Correo</th>
                                 <th scope="col">Rol</th>
                                 <th scope="col">Estado</th>
+                                <th scope="col">ver Asignaciones</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
@@ -40,20 +30,19 @@
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->role }}</td>
+                                <td>{{ $user->aprobado }}</td>
                                 <td>
-                                    @if($user->aprobado == 'pendiente')
-                                    <span class="text-warning">Pendiente</span>
-                                    @elseif($user->aprobado == 'aprobado')
-                                    <span class="text-success">Aprobado</span>
-                                    @else
-                                    <span class="text-danger">No aprobado</span>
-                                    @endif
+                                    <form action="{{ url('/users/' . $user->id . '/assignments') }}" id="formVerAsignaciones{{$user->id}}" method="GET" style="display:inline;">
+                                        @csrf
+                                        <button type="button" class="btn btn-info btn-sm" id="btnVerAsignaciones{{ $user->id }}" data-bs-toggle="modal" data-bs-target="#modalVerAsignaciones{{ $user->id }}">Ver Asignaciones</button>
+                                    </form>
+                                    <x-modal-Gestion-Usuarios :user="$user" :asignaciones="$user->asignaciones" />
                                 </td>
                                 <td>
-                                    @if($user->aprobado == 'pendiente')
+                                    @if($user->aprobado == 'aprobado')
                                     <form action="{{ url('/users/' . $user->id . '/approve') }}" id="formAprobar{{$user->id}}" method="POST" style="display:inline;">
                                         @csrf
-                                        <button type="button" class="btn btn-success btn-sm" id="btnConfirmar{{ $user->id }}">Aceptar</button>
+                                        <button type="button" class="btn btn-success btn-sm" id="btnConfirmar{{ $user->id }}">Editar</button>
                                         <x-confirm-alert
                                             formId="formAprobar{{ $user->id }}"
                                             title="¿Aprobar usuario?"
@@ -65,13 +54,13 @@
                                     </form>
                                     <form action="{{ url('/users/' . $user->id . '/reject') }}" id="formRechazar{{$user->id}}" method="POST" style="display:inline;">
                                         @csrf
-                                        <button type="button" class="btn btn-danger btn-sm" id="btnRechazar{{ $user->id }}">Rechazar</button>
+                                        <button type="button" class="btn btn-danger btn-sm" id="btnRechazar{{ $user->id }}">Eliminar</button>
                                         <x-confirm-alert
                                             formId="formRechazar{{ $user->id }}"
                                             buttonId="btnRechazar{{ $user->id }}"
-                                            title="¿Rechazar usuario?"
-                                            text="El usuario será rechazado."
-                                            confirmText="Sí, rechazar"
+                                            title="¿Eliminar usuario?"
+                                            text="El usuario será eliminado."
+                                            confirmText="Sí, eliminar"
                                             cancelText="Cancelar"
                                             icon="question" />
                                     </form>
@@ -89,4 +78,14 @@
             </div>
 
 
-</x-app-layout>
+</x-app-layout> 
+@section('scripts')
+<script>
+function abrirModalUsuario() {
+  const modal = new bootstrap.Modal(document.getElementById('modalUsuario'));
+  modal.show();
+}
+</script>
+@endsection
+
+@stack('scripts')
