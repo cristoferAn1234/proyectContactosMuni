@@ -74,6 +74,16 @@ Route::middleware(['auth', 'verified', 'approved'])->group(function () {
         Route::put('/{id}', [\App\Http\Controllers\OrganizacionController::class, 'update'])->name('update');
         Route::delete('/{id}', [\App\Http\Controllers\OrganizacionController::class, 'destroy'])->name('destroy')->middleware('role:admin');
     });
+
+    // Mapa de ubicaciones
+    Route::prefix('ubicacion')->name('ubicacion.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\UbicacionController::class, 'index'])->name('index');
+        Route::get('/search', [\App\Http\Controllers\UbicacionController::class, 'search'])->name('search');
+        Route::get('/debug', function() {
+            $orgs = \App\Models\Organizacion::whereNotNull('ubi_lat')->select('id', 'nombre', 'ubi_lat', 'ubi_long')->get();
+            return response()->json($orgs);
+        })->name('debug');
+    });
 });
 
 require __DIR__.'/auth.php';

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de Mapa - Mapbox</title>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            z-index: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="info">
+        <h3>Test de Mapbox</h3>
+        <p id="status">Inicializando...</p>
+        <p>Organizaciones: <span id="count">0</span></p>
+    </div>
+    <div id="map"></div>
+
+    <script>
+        console.log('Iniciando prueba de Mapbox...');
+        
+        // Token público
+        mapboxgl.accessToken = 'pk.eyJ1IjoieWVzY2EiLCJhIjoiY205dWwxNnVoMDNmbTJsb2VjOTB3YnMwciJ9.WBq2Zn2X1JnkJ_39zwlQjQ';
+        
+        try {
+            const map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v12',
+                center: [-84.0907, 9.9281],
+                zoom: 7
+            });
+
+            document.getElementById('status').textContent = 'Mapa creado';
+            console.log('Mapa creado correctamente');
+
+            map.on('load', () => {
+                document.getElementById('status').textContent = 'Mapa cargado ✓';
+                console.log('Mapa cargado completamente');
+
+                // Agregar marcadores de prueba
+                const locations = [
+                    { lng: -84.083333, lat: 9.933333, name: 'San José' },
+                    { lng: -85.685278, lat: 10.251667, name: 'Santa Cruz' }
+                ];
+
+                locations.forEach(loc => {
+                    new mapboxgl.Marker({ color: '#00ADED' })
+                        .setLngLat([loc.lng, loc.lat])
+                        .setPopup(new mapboxgl.Popup().setHTML(`<strong>${loc.name}</strong>`))
+                        .addTo(map);
+                });
+
+                document.getElementById('count').textContent = locations.length;
+
+                // Ajustar vista
+                map.fitBounds([
+                    [-85.685278, 9.933333],
+                    [-84.083333, 10.251667]
+                ], { padding: 50 });
+            });
+
+            map.on('error', (e) => {
+                document.getElementById('status').textContent = 'Error: ' + e.error.message;
+                console.error('Error del mapa:', e);
+            });
+
+        } catch (e) {
+            document.getElementById('status').textContent = 'Error: ' + e.message;
+            console.error('Error general:', e);
+        }
+    </script>
+</body>
+</html>

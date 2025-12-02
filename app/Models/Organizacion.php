@@ -18,7 +18,7 @@ class Organizacion extends Model
         'provincia_id',// Relaciona con el modelo Provincia
         'canton_id', // Relaciona con el modelo Canton
         'distrito_id', // Relaciona con el modelo Distrito
-        'ubi_lat',
+        'ubi_Lat',
         'ubi_long',
         'urlDirectorioTelefonico',
         'user_id', // Relaciona con el modelo User
