@@ -1,5 +1,5 @@
  <aside class="w-64 bg-white dark:bg-gray-900 h-screen shadow-md">
-            <div class="p-6 text-xl font-bold text-gray-900 dark:text-white">
+            <div class="p-6 text-xl font-bold" style="color: #1f2937 !important;">
                 Contactos Municipales
             </div>
             <nav class="px-4">
