@@ -136,53 +136,35 @@ public function getUsersPendingApproval(Request $request)
     return view('userTcu.solicitudes', ['users' => $users]);
 }
 
-// Aprobar usuario
-public function approveUser( $id)
-{
-    try {
-        $user = User::findOrFail($id);
-        $user->aprobado = 'aprobado';
-        $user->save();
 
-        return redirect()->route('users.getAll')->with('success', 'Usuario aprobado correctamente.');
-    } catch (ModelNotFoundException $e) {
-        return redirect()->route('users.getAll')->with('error', 'Usuario no encontrado.');
-    } catch (Exception $e) {
-        Log::error('Error approving user (id: '.$id.'): '.$e->getMessage());
-   return redirect()->route('users.getAll')
-            ->with('error', 'Ocurrió un error al aprobar el usuario.');
-    }
+/**
+ * Aprobar un usuario
+ */
+public function approveUser($id)
+{
+    $user = User::findOrFail($id);
+    $user->aprobado = 'aprobado';
+    $user->save();
+
+    return redirect()->back()->with('success', 'Usuario aprobado correctamente.');
 }
 
-// Rechazar usuario
-public function rejectUser( $id) 
+/**
+ * Rechazar un usuario
+ */
+public function rejectUser($id)
 {
-    try {
-        $user = User::findOrFail($id);
-        $user->aprobado = 'no_aprobado';
-        $user->save();
+    $user = User::findOrFail($id);
+    $user->aprobado = 'no_aprobado';
+    $user->save();
 
-        return redirect()->route('users.getAll')->with('success', 'Usuario rechazado correctamente.');
-    } catch (ModelNotFoundException $e) {
-        return redirect()->route('users.getAll')->with('error', 'Usuario no encontrado.');
-    } catch (Exception $e) {
-        Log::error('Error rejecting user (id: '.$id.'): '.$e->getMessage());
-        return redirect()->route('users.getAll')
-            ->with('error', 'Ocurrió un error al rechazar el usuario.');
-    }
-
+    return redirect()->back()->with('success', 'Usuario rechazado.');
 }
 
-//********************************************************************************************* */
-// Vista de gestión de usuarios TCU
 public function viewGestionUsuarios(){
   $users = User::byAprobado("aprobado")->get();
   $Organizations = Organizacion::all();
     return view('userTcu.gestionUsuarios', compact('users', 'Organizations'));
 }
-
-
-
-
 
 }

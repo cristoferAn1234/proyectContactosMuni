@@ -12,19 +12,26 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-      //  $this->call(ProvinciasSeeder::class);
-      // $this->call(PuestosSeeder::class);
+        // Crear usuario administrador primero
+        $this->call(AdminUserSeeder::class);
+        
+        // Datos geográficos y catálogos
+       // $this->call(ProvinciasSeeder::class);
+      //  $this->call(PuestosSeeder::class);
       //  $this->call(TiposSeeder::class);
-      //$this->call(CantonesSeeder::class);
+     //   $this->call(CantonesSeeder::class);
       //  $this->call(DistritosSeeder::class);
-        $this->call(OrganizacionesSeeder::class);
-        // User::factory(1)->create();
+        
+        // Datos de prueba para organizaciones y contactos
+        $this->call(OrganizacionSeeder::class);
+       // $this->call(ContactoSeeder::class);
+        
+        // Usuario de prueba (comentado para evitar duplicados)
+        // User::factory()->create([
+        //     'name' => 'Cristofer',
+        //     'email' => 'crisangulo123@gmail.com',
+        //     'password' => bcrypt('12345678'),
+        // ]);
 
-    /*  User::factory()->create([
-            'name' => 'Cristofer',
-            'email' => 'crisangulo123@gmail.com',
-            'password' => bcrypt('12345678'),
-        ]);
-    */
     }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('cantones', function (Blueprint $table) {
             $table->unsignedSmallInteger('id')->primary();
             $table->string('nombre', 100);
-            $table->unsignedTinyInteger('provincia_id');
+            $table->unsignedBigInteger('provincia_id');
             $table->foreign('provincia_id')->references('id')->on('provincias')->onDelete('cascade');
             $table->timestamps();
         });
